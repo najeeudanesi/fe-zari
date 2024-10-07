@@ -1,0 +1,144 @@
+<template>
+  <div class="flex w-full flex-col space-y-8 px-4 pb-0 sm:p-8">
+    <Title>Inventory. · Zari</Title>
+    <div class="flex w-full flex-wrap items-center justify-between space-y-2">
+      <h1 class="mr-2 text-2xl font-bold text-gray-700">Inventory</h1>
+      <!-- <NuxtLink class="Btn font-medium" to="/inventory/add-gift">
+        <Icon name="plus" class="mr-2 h-4 stroke-2" />
+        Add Item
+      </NuxtLink> -->
+    </div>
+  
+
+    <div class="flex w-full flex-wrap items-center space-y-2 gap-11">
+      <label
+      class="flex max-w-lg items-center rounded-xl bg-white py-3 pl-2 text-sm text-gray-500 shadow-sm w-1/2"
+    >
+      <Icon name="search" class="h-7" />
+      <input
+        type="text"
+        class="w-full px-4 placeholder:text-gray-300 focus:outline-none"
+        placeholder="Search keyword, name, message"
+        v-model="search"
+        @input="doSearch"
+      />
+    </label>
+      <div class="flex space-x-4 gap-10">
+        <button @click="activeTab = 'analytics'" :class="{ 'text-blue-500': activeTab === 'analytics' }">Analytics</button>
+        <button @click="activeTab = 'products'" :class="{ 'text-blue-500': activeTab === 'products' }">Products</button>
+        <button @click="activeTab = 'stock-history'" :class="{ 'text-blue-500': activeTab === 'stock-history' }">Stock History</button>
+        <button @click="activeTab = 'categories'" :class="{ 'text-blue-500': activeTab === 'categories' }">Categories</button>
+        <button @click="activeTab = 'transactions'" :class="{ 'text-blue-500': activeTab === 'transactions' }">Transactions</button>
+      </div>
+    </div>
+
+  
+  </div>
+</template>
+
+<script setup lang="ts">
+import Icon from '~~/components/ui/icon.vue'
+// import ResponsiveTable, {
+//   TableRow
+// } from '~~/components/table/responsive-table.vue'
+// import CheckBox from '~~/components/input/check-box.vue'
+// import TableCell from '~~/components/table/table-cell.vue'
+// import SlideModal from '~~/components/ui/slide-modal.vue'
+import { Gift } from '~~/composables/resources/gifting'
+// import { ApiList } from '~~/composables/fetch'
+// import ConfirmDelete from '~~/components/resources/confirm-delete.vue'
+// import { PLACEHOLDER_IMAGE } from '~~/composables/resources/system'
+// import ToggleSelections from '~~/components/ui/toggle-selections.vue'
+
+// defines
+// definePageMeta({ layout: 'admin', middleware: ['auth'] })
+definePageMeta({ layout: 'admin'})
+
+// refs
+const route = useRoute()
+const search = ref('')
+const giftToDelete = ref<Gift>()
+const [modalTitle, modalOpen] = useRouteModal('inventory', [
+  '/inventory/add-gift',
+  '/inventory/edit',
+  '/inventory/view'
+])
+
+const { data: gifts, refresh, pending } = useGifts(search)
+const selected = ref<number[]>([])
+
+// methods
+const doSearch = useDebounce(() => {
+  refresh()
+}, 200)
+const deleteGift = (gift: Gift) =>
+  apiFetch(`gifts/${gift.id}`, { method: 'delete' })
+
+const deleteDone = () => {
+  giftToDelete.value = undefined
+  refresh()
+}
+const paginate = usePaginate(refresh)
+</script>
+
+
+    <!-- <ResponsiveTable v-bind="{ data: gifts, pending }" @paginate="paginate">
+      <template #header>
+        <th>
+          <ToggleSelections
+            v-model="selected"
+            v-bind="{data: gifts?.data, mapFn: (v: Gift) => v.id}"
+          />
+        </th>
+        <th class="px-4 text-left">Product</th>
+        <th class="px-4 text-left">Image</th>
+        <th class="px-4 text-left">Quantity</th>
+        <th></th>
+      </template>
+      <template #mobileHeader="{ row: gift }: TableRow<Gift>">
+        <div class="flex items-center text-sm text-gray-600">
+          <CheckBox v-bind="{ selected, value: gift.id }">
+            <input v-model="selected" type="checkbox" :value="gift.id" hidden />
+          </CheckBox>
+          <span class="ml-4">{{ gift.name }}</span>
+        </div>
+      </template>
+      <template #default="{ row: gift }: TableRow<Gift>">
+        <TableCell class="justify-center">
+          <CheckBox v-bind="{ selected, value: gift.id }">
+            <input v-model="selected" type="checkbox" :value="gift.id" hidden />
+          </CheckBox>
+        </TableCell>
+        <TableCell>{{ gift.name }}</TableCell>
+        <TableCell header="">
+          <img
+            :src="gift.image?.url ?? PLACEHOLDER_IMAGE"
+            alt="sample product"
+            class="h-28 rounded-lg lg:h-11"
+          />
+        </TableCell>
+        <TableCell header="Quantity">{{ gift.quantity }}</TableCell>
+        <TableCell header="" class="space-x-4">
+          <NuxtLink :to="`/inventory/edit/${gift.id}`" class="Btn__icon">
+            <Icon name="pencil" class="h-6 w-6" />
+          </NuxtLink>
+          <button class="Btn__icon" type="button" @click="giftToDelete = gift">
+            <Icon name="trash" class="h-6 w-6" />
+          </button>
+        </TableCell>
+      </template>
+    </ResponsiveTable> -->
+
+    <!-- <SlideModal
+    :open="modalOpen"
+    staticBackDrop
+    @close="$router.replace('/inventory')"
+    :title="modalTitle"
+  >
+    <NuxtPage />
+  </SlideModal>
+  <ConfirmDelete
+    v-bind="{ item: giftToDelete, deleteFn: deleteGift, name: (gift: Gift) => gift.name }"
+    @cancelled="giftToDelete = undefined"
+    @deleted="deleteDone"
+  /> -->

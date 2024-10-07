@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f8f8f8;
+}
+
+#__nuxt {
+  @apply contents;
+}
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* 
+  Scrollbar 
+*/
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/** 
+  Transitions
+*/
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.5s;
+}
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.list-leave-active {
+  position: absolute;
+}
+/**
+  Transitions End
+*/
+
+th {
+  @apply font-medium;
+}
+
+td {
+  @apply font-normal;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+@layer utilities {
+  .btn-transition {
+    @apply transition delay-75 duration-300 ease-in-out;
+  }
+}
+
+/** Btn */
+.Btn,
+.Btn__alt {
+  @apply btn-transition inline-flex min-h-11 items-center justify-center rounded-lg border border-transparent px-4 py-2 text-sm font-semibold shadow hover:-translate-y-1 hover:scale-105  focus-visible:ring-2 focus-visible:ring-offset-2;
+}
+
+.Btn {
+  @apply bg-primary  text-white  focus-visible:ring-primary-alt;
+}
+
+.Btn__alt {
+  @apply bg-primary-alt text-primary outline outline-1 outline-primary;
+}
+
+.Btn__icon {
+  @apply btn-transition flex items-center rounded-lg bg-primary-alt p-2 text-primary hover:-translate-y-[0.15rem] hover:scale-110;
+}
+
+/** Status */
+.Status {
+  @apply flex items-center justify-center rounded-lg px-3 py-1 font-medium capitalize;
+}
+
+.Status--warning {
+  @apply bg-orange-50;
+  color: #ff9900;
+}
+
+.Status--success {
+  @apply bg-green-50 text-green-500;
+}
+
+.Status--error {
+  @apply bg-rose-50 text-rose-500;
+}
+
+/** Modal */
+.Modal__footer {
+  @apply sticky bottom-0 flex h-full w-full items-end space-x-3 bg-white py-3;
+}
+
+/** Table */
+td:first-of-type.TableCell > div {
+  @apply rounded-l-2xl;
+}
+
+td:last-of-type.TableCell > div {
+  @apply rounded-r-2xl;
+}
+
+/** Toast */
+.Toast--success {
+  background-color: rgb(245, 253, 249);
+}
+
+.Toast--error {
+  background-color: rgb(255, 245, 245);
+}
+
+.Toast--warning {
+  background-color: rgb(250, 247, 237);
+}
+
+.Toast--info {
+  @apply bg-gray-50;
+}
+
+.Toast__close--success {
+  @apply border-green-500;
+}
+
+.Toast__close--error {
+  @apply border-red-500;
+}
+
+.Toast__close--warning {
+  @apply border-yellow-500;
+}
+
+.Toast__close--info {
+  @apply border-gray-500;
+}
+
+.Toast__icon--success {
+  @apply text-green-500;
+}
+
+.Toast__icon--error {
+  @apply text-red-500;
+}
+
+.Toast__icon--warning {
+  @apply text-yellow-400;
+}
+
+.Toast__icon--info {
+  @apply text-gray-500;
+}
+
+.active_chip {
+  @apply w-16 rounded-md bg-green-100 p-2 text-center text-green-800;
+}
+
+.inactive_chip {
+  @apply w-16 rounded-md bg-red-100 p-2 text-center text-red-800;
+}
+
+.select_style {
+  @apply relative h-11 w-full overflow-hidden rounded-lg border border-gray-200 bg-white  p-2 pr-8 text-left text-sm text-gray-500 focus:outline-gray-300;
+}
